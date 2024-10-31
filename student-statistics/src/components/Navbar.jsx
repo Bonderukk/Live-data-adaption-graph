@@ -1,22 +1,36 @@
-import { AppBar, Toolbar, Typography, Button } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { AppBar, Toolbar, Button, Box } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
 
-function Navbar() {
+const Navbar = () => {
   return (
     <AppBar position="static">
       <Toolbar>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          Štatistiky známok
-        </Typography>
-        <Button color="inherit" component={Link} to="/">
-          Štatistiky
-        </Button>
-        <Button color="inherit" component={Link} to="/custom">
-          Vlastný graf
-        </Button>
+        <Box sx={{ flexGrow: 1, display: 'flex', gap: 2 }}>
+          <Button
+            color="inherit"
+            component={RouterLink}
+            to="/"
+          >
+            Štatistiky známok
+          </Button>
+          <Button
+            color="inherit"
+            component={RouterLink}
+            to="/custom"
+          >
+            Vlastný graf
+          </Button>
+          <Button
+            color="inherit"
+            component={RouterLink}
+            to="/sine-cosine"
+          >
+            Sínus a Kosínus
+          </Button>
+        </Box>
       </Toolbar>
     </AppBar>
   );
-}
+};
 
 export default Navbar;
