@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import BarChart from '../components/BarChart';
 import PieChart from '../components/PieChart';
-import { Container, Grid, Paper } from '@mui/material';
+import LineChart from '../components/LineChart';
+import { Container, Grid, Paper, Typography } from '@mui/material';
 
 const GradeStats = () => {
   const [data, setData] = useState(null);
@@ -15,33 +16,36 @@ const GradeStats = () => {
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
         
-        // Získanie všetkých záznamov
         const zaznamy = xmlDoc.getElementsByTagName('zaznam');
         
-        // Príprava dátových štruktúr
         const years = [];
         const grades = {
-          A: [],
-          B: [],
-          C: [],
-          D: [],
-          E: []
+          A: [], B: [], C: [], D: [], E: [], FX: []
         };
 
-        // Prechádzanie záznamov v opačnom poradí (od najnovšieho)
         Array.from(zaznamy).reverse().forEach(zaznam => {
           const rok = zaznam.getElementsByTagName('rok')[0].textContent;
           const hodnotenie = zaznam.getElementsByTagName('hodnotenie')[0];
           
           years.push(rok);
-          grades.A.push(Number(hodnotenie.getElementsByTagName('A')[0].textContent));
-          grades.B.push(Number(hodnotenie.getElementsByTagName('B')[0].textContent));
-          grades.C.push(Number(hodnotenie.getElementsByTagName('C')[0].textContent));
-          grades.D.push(Number(hodnotenie.getElementsByTagName('D')[0].textContent));
-          grades.E.push(Number(hodnotenie.getElementsByTagName('E')[0].textContent));
+          Object.keys(grades).forEach(grade => {
+            grades[grade].push(Number(hodnotenie.getElementsByTagName(grade)[0].textContent));
+          });
         });
 
-        setData({ years, grades });
+        const uspesnost = years.map((_, index) => {
+          const uspesni = grades.A[index] + grades.B[index] + grades.C[index];
+          const total = uspesni + grades.D[index] + grades.E[index] + grades.FX[index];
+          return (uspesni / total) * 100;
+        });
+
+        const neuspesnost = years.map((_, index) => {
+          const neuspesni = grades.D[index] + grades.E[index] + grades.FX[index];
+          const total = grades.A[index] + grades.B[index] + grades.C[index] + neuspesni;
+          return (neuspesni / total) * 100;
+        });
+
+        setData({ years, grades, uspesnost, neuspesnost });
       } catch (err) {
         setError('Chyba pri načítaní dát: ' + err.message);
       }
@@ -51,7 +55,7 @@ const GradeStats = () => {
   }, []);
 
   if (error) return (
-    <Container maxWidth={false} sx={{ mt: 4, px: 4 }}>
+    <Container maxWidth="xl" sx={{ mt: 4, px: { xs: 2, sm: 4 } }}>
       <Paper sx={{ p: 2, textAlign: 'center', color: 'error.main' }}>
         Error: {error}
       </Paper>
@@ -59,7 +63,7 @@ const GradeStats = () => {
   );
   
   if (!data) return (
-    <Container maxWidth={false} sx={{ mt: 4, px: 4 }}>
+    <Container maxWidth="xl" sx={{ mt: 4, px: { xs: 2, sm: 4 } }}>
       <Paper sx={{ p: 2, textAlign: 'center' }}>
         Načítavam dáta...
       </Paper>
@@ -67,29 +71,69 @@ const GradeStats = () => {
   );
 
   return (
-    <Container maxWidth={false} sx={{ mt: 4, px: { xs: 1, sm: 4 } }}>
+    <Container maxWidth="xl" sx={{ mt: 4, px: { xs: 2, sm: 4 } }}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Paper sx={{ p: 1, overflow: 'auto' }}>
+          <Paper sx={{ p: { xs: 2, sm: 3 }, overflow: 'hidden' }}>
+            <Typography 
+              variant="h6" 
+              gutterBottom 
+              sx={{ fontSize: { xs: '1.2rem', sm: '1.5rem' } }}
+            >
+              Rozdelenie známok podľa akademických rokov
+            </Typography>
             <BarChart data={data} />
           </Paper>
         </Grid>
-        {data.years.map((year, index) => (
-          <Grid item xs={12} key={year}>
-            <Paper sx={{ p: 1 }}>
-              <PieChart 
-                data={{
-                  A: data.grades.A[index],
-                  B: data.grades.B[index],
-                  C: data.grades.C[index],
-                  D: data.grades.D[index],
-                  E: data.grades.E[index],
-                }}
-                year={year}
-              />
-            </Paper>
-          </Grid>
-        ))}
+        <Grid item xs={12}>
+          <Paper sx={{ p: { xs: 2, sm: 3 }, overflow: 'hidden' }}>
+            <Typography 
+              variant="h6" 
+              gutterBottom 
+              sx={{ fontSize: { xs: '1.2rem', sm: '1.5rem' } }}
+            >
+              Analýza úspešnosti študentov v priebehu rokov
+            </Typography>
+            <LineChart 
+              data={{
+                roky: data.years,
+                uspesnost: data.uspesnost,
+                neuspesnost: data.neuspesnost
+              }} 
+            />
+          </Paper>
+        </Grid>
+        <Grid container item spacing={1}>
+          {data.years.map((year, index) => (
+            <Grid item xs={12} sm={6} md={4} lg={3} key={year}>
+              <Paper sx={{ 
+                p: { xs: 1, sm: 2 },
+                height: '100%',
+                minHeight: '350px'
+              }}>
+                <Typography 
+                  variant="subtitle1" 
+                  align="center" 
+                  gutterBottom 
+                  sx={{ fontSize: { xs: '1rem', sm: '1.1rem' } }}
+                >
+                  {year}
+                </Typography>
+                <PieChart 
+                  data={{
+                    A: data.grades.A[index],
+                    B: data.grades.B[index],
+                    C: data.grades.C[index],
+                    D: data.grades.D[index],
+                    E: data.grades.E[index],
+                    FX: data.grades.FX[index],
+                  }}
+                  year={year}
+                />
+              </Paper>
+            </Grid>
+          ))}
+        </Grid>
       </Grid>
     </Container>
   );

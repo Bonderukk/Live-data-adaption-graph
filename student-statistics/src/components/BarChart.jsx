@@ -39,35 +39,48 @@ const BarChart = ({ data }) => {
     <Plot
       data={createDataSeries()}
       layout={{
-        title: 'Počet študentov podľa známok v jednotlivých rokoch',
+        title: {
+          text: 'Počet študentov podľa známok v jednotlivých rokoch',
+          font: { size: isSmallScreen ? 12 : 14 },
+          xref: 'paper',
+          x: 0.5,
+          xanchor: 'center',
+          y: 0.95,
+          yanchor: 'top'
+        },
         barmode: 'group',
-        height: isSmallScreen ? 600 : 350, // Increased height for mobile
+        height: isSmallScreen ? 600 : 350,
         width: null,
         autosize: true,
         margin: {
           l: isSmallScreen ? 120 : 50,
-          r: 20,
+          r: isSmallScreen ? 20 : 100,
           t: 50,
-          b: isSmallScreen ? 50 : 100
+          b: isSmallScreen ? 100 : 50,
+          pad: 4
         },
         xaxis: {
           title: isSmallScreen ? 'Počet študentov' : 'Akademický rok',
           showgrid: true,
+          automargin: true
         },
         yaxis: {
           title: isSmallScreen ? 'Akademický rok' : 'Počet študentov',
           showgrid: true,
-          automargin: true,
+          automargin: true
         },
         legend: {
           orientation: isSmallScreen ? 'h' : 'v',
-          yanchor: isSmallScreen ? 'bottom' : 'auto',
-          y: isSmallScreen ? -0.2 : 1,
-          xanchor: isSmallScreen ? 'center' : 'right',
-          x: isSmallScreen ? 0.5 : 1.1
+          yanchor: isSmallScreen ? 'bottom' : 'middle',
+          y: isSmallScreen ? -0.5 : 0.5,
+          xanchor: isSmallScreen ? 'center' : 'left',
+          x: isSmallScreen ? 0.4 : 1.05,
+          bgcolor: 'rgba(255,255,255,0.9)',
+          bordercolor: 'rgba(0,0,0,0.1)',
+          borderwidth: 1
         },
         font: {
-          size: 12
+          size: 10
         }
       }}
       config={{ displayModeBar: false }}

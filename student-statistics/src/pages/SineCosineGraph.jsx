@@ -1,63 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
 import Plot from 'react-plotly.js';
 import { Container, Paper, Typography, Checkbox, FormControlLabel, Box, Button } from '@mui/material';
-import { styled } from '@mui/material/styles';
-
-// Custom CSS styles
-const CustomInput = styled('div')({
-  width: '200px',
-  marginBottom: '20px',
-  '.slider-container': {
-    position: 'relative',
-    height: '25px',
-    marginBottom: '10px',
-    '.slider-track': {
-      width: '100%',
-      height: '8px',
-      backgroundColor: '#f5f5f5',
-      position: 'absolute',
-      top: '50%',
-      transform: 'translateY(-50%)',
-    },
-    '.slider-thumb': {
-      position: 'absolute',
-      width: '40px',
-      height: '24px',
-      backgroundColor: '#fff',
-      border: '1px solid #e0e0e0',
-      borderRadius: '3px',
-      transform: 'translateX(-50%)',
-      cursor: 'pointer',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      fontSize: '14px',
-      boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
-    }
-  },
-  '.number-input': {
-    width: '100%',
-    height: '1.5em',
-    padding: '6px 12px',
-    fontSize: '14px',
-    border: '1px solid #e0e0e0',
-    borderRadius: '4px',
-    backgroundColor: '#fff',
-    '& input': {
-      width: '100%',
-      border: 'none',
-      outline: 'none',
-      textAlign: 'left',
-    },
-    '&::after': {
-      content: 'none'
-    }
-  }
-});
+import AmplitudeControl from '../components/AmplitudeControl';
 
 const SineCosineGraph = () => {
   const [amplitude, setAmplitude] = useState(1);
-  const amplitudeRef = useRef(amplitude); // Initialize ref with current amplitude
+  const amplitudeRef = useRef(amplitude);
   const [showSine, setShowSine] = useState(true);
   const [showCosine, setShowCosine] = useState(true);
   const [data, setData] = useState([
@@ -122,77 +70,24 @@ const SineCosineGraph = () => {
     return () => eventSource.close();
   }, [isStreaming]); // Removed `amplitude` from dependencies
 
-  const handleInputChange = (event) => {
-    const value = Number(event.target.value);
-    if (!isNaN(value) && value >= 0 && value <= 10) {
-      setAmplitude(value);
-    }
-  };
-
-  const handleSliderDrag = (e) => {
-    const container = e.currentTarget.closest('.slider-container');
-    const rect = container.getBoundingClientRect();
-    const x = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
-    const newValue = (x / rect.width) * 10;
-    setAmplitude(Math.round(newValue * 10) / 10);
-  };
-
-  const handleMouseDown = (e) => {
-    // Start dragging on mouse down
-    handleSliderDrag(e);
-
-    const handleMouseMove = (e) => {
-      e.preventDefault(); // Prevent text selection during drag
-      handleSliderDrag(e);
-    };
-
-    const handleMouseUp = () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
-    };
-
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
-  };
-
-  // Handler for clicking on the slider track
-  const handleTrackClick = (e) => {
-    handleSliderDrag(e);
-  };
-
   const handleEndClick = () => {
     setIsStreaming(false);
   };
 
   return (
-    <Container maxWidth={false} sx={{ mt: 4, px: { xs: 1, sm: 4 } }}>
+    <Container maxWidth={false} sx={{ py: 4, px: { xs: 1, sm: 4 } }}>
       <Paper sx={{ p: { xs: 1, sm: 2 }, overflow: 'auto' }}>
         <Typography variant="h6" gutterBottom>
           Sínusová a kosínusová funkcia
         </Typography>
         
-        <CustomInput>
-          <div className="slider-container" onClick={handleTrackClick}>
-            <div className="slider-track"></div>
-            <div 
-              className="slider-thumb" 
-              style={{ left: `${(amplitude / 10) * 100}%` }}
-              onMouseDown={handleMouseDown}
-            >
-              {amplitude}
-            </div>
-          </div>
-          <div className="number-input">
-            <input
-              type="number"
-              value={amplitude}
-              onChange={handleInputChange}
-              min={0}
-              max={10}
-              step={0.1}
-            />
-          </div>
-        </CustomInput>
+        <AmplitudeControl 
+          value={amplitude}
+          onChange={setAmplitude}
+          min={0}
+          max={10}
+          step={0.1}
+        />
 
         <Box sx={{ mb: 2 }}>
           <FormControlLabel
@@ -217,10 +112,12 @@ const SineCosineGraph = () => {
             xaxis: { 
               title: 'x',
               showgrid: true,
+              fixedrange: isStreaming, // Disable zoom while streaming
             },
             yaxis: { 
               title: 'y',
               showgrid: true,
+              fixedrange: isStreaming, // Disable zoom while streaming
             },
             margin: { t: 10, b: 50, l: 50, r: 20 },
             height: 400,
@@ -231,7 +128,8 @@ const SineCosineGraph = () => {
             paper_bgcolor: '#fff',
           }}
           config={{ 
-            displayModeBar: false
+            displayModeBar: !isStreaming, // Only show mode bar when streaming is stopped
+            scrollZoom: !isStreaming // Disable scroll zoom while streaming
           }}
           useResizeHandler={true}
           style={{ width: '100%', height: '400px' }}

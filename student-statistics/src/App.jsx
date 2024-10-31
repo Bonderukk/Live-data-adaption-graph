@@ -1,20 +1,25 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import GradeStats from './pages/GradeStats';
-import CustomGraph from './pages/CustomGraph';
-import SineCosineGraph from './pages/SineCosineGraph';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import AppRoutes from './Routes';
+import { Box } from '@mui/material';
 
 function App() {
   return (
     <Router>
-      <div className="App">
+      <Box sx={{ 
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh'
+      }}>
         <Navbar />
-        <Routes>
-          <Route path="/" element={<GradeStats />} />
-          <Route path="/custom" element={<CustomGraph />} />
-          <Route path="/sine-cosine" element={<SineCosineGraph />} />
-        </Routes>
-      </div>
+        <Header />
+        <Box sx={{ flex: 1 }}>
+          <AppRoutes />
+        </Box>
+        <Footer />
+      </Box>
     </Router>
   );
 }

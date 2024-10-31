@@ -13,12 +13,25 @@ const PieChart = ({ data, year }) => {
         },
       ]}
       layout={{
-        title: `Rozdelenie známok - ${year}`,
+        title: {
+          text: `Rozdelenie známok - ${year}`,
+          font: { size: 14 },
+          xref: 'paper',
+          x: 0.8,
+          y: 0.95,
+          xanchor: 'center',
+          yanchor: 'top'
+        },
         responsive: true,
-        autosize: true
+        autosize: true,
+        margin: { t: 60, b: 20, l: 20, r: 20 },
+        height: 300,
+        font: {
+          size: 11
+        }
       }}
       useResizeHandler={true}
-      style={{ width: '100%', height: '400px' }}
+      style={{ width: '100%', height: '300px' }}
     />
   );
 };
