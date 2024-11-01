@@ -40,7 +40,7 @@ const theme = createTheme({
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <Router>
+      <Router basename='/~xbednarikm3/tazky_nazov3'>
         <Box sx={{ 
           display: 'flex',
           flexDirection: 'column',

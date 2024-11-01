@@ -19,7 +19,7 @@ const Header = () => {
           Štatistická analýza
         </Typography>
         <Typography variant="subtitle1" sx={{ color: '#00FFFF' }}>
-          Vizualizácia a analýza študijných výsledkov
+          Vizualizácia a analýza <span style={{ fontFamily: 'Arial' }}>Š</span>tudijných výsledkov
         </Typography>
       </Box>
     </Paper>

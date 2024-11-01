@@ -21,11 +21,10 @@ const Navbar = () => {
 
   const menuItems = [
     { 
-      text: (
-        <span>
-          <span style={{ fontFamily: 'Arial' }}>Š</span>tatistiky známok
-        </span>
-      ).props.children, 
+      text: <>
+        <span style={{ fontFamily: 'Arial' }}>Š</span>
+        tatistiky známok
+      </>, 
       path: '/' 
     },
     { text: 'Sínus a Kosínus', path: '/sine-cosine' },
