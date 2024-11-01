@@ -1,0 +1,25 @@
+
+/* Import cyberpunk-style fonts */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap');
+
+
+
+
+/* Global font settings */
+body {
+  font-family: 'Orbitron', 'Rajdhani', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Optional: Different font weights for different elements */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+}
+
+p, span, div {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 400;
+}

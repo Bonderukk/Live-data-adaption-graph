@@ -20,7 +20,14 @@ const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const menuItems = [
-    { text: 'Štatistiky známok', path: '/' },
+    { 
+      text: (
+        <span>
+          <span style={{ fontFamily: 'Arial' }}>Š</span>tatistiky známok
+        </span>
+      ).props.children, 
+      path: '/' 
+    },
     { text: 'Sínus a Kosínus', path: '/sine-cosine' },
   ];
 
@@ -33,7 +40,13 @@ const Navbar = () => {
   };
 
   return (
-    <AppBar position="sticky">
+    <AppBar 
+      position="sticky" 
+      sx={{ 
+        backgroundColor: '#01012B',  // Dark blue background
+        borderBottom: '2px solid #FF00FF'  // Hot pink border
+      }}
+    >
       <Toolbar>
         {isMobile ? (
           <>
@@ -43,6 +56,20 @@ const Navbar = () => {
               color="inherit"
               aria-label="menu"
               onClick={handleMenu}
+              sx={{ 
+                color: '#00FFFF',  // Cyan color for menu icon
+                '&:hover': {
+                  color: '#FF00FF'  // Hot pink on hover
+                },
+                '&:focus': {  // Add these styles
+                  outline: 'none',
+                  background: 'transparent'
+                },
+                '&:active': {  // Add these styles
+                  outline: 'none',
+                  background: 'transparent'
+                }
+              }}
             >
               <MenuIcon />
             </IconButton>
@@ -50,6 +77,19 @@ const Navbar = () => {
               anchorEl={anchorEl}
               open={Boolean(anchorEl)}
               onClose={handleClose}
+              sx={{
+                '& .MuiPaper-root': {
+                  backgroundColor: '#01012B',  // Dark blue background
+                  border: '1px solid #FF00FF'  // Hot pink border
+                },
+                '& .MuiMenuItem-root': {
+                  color: '#00FFFF',  // Cyan text
+                  '&:hover': {
+                    backgroundColor: '#1A1A3A',  // Slightly lighter dark blue
+                    color: '#FF00FF'  // Hot pink on hover
+                  }
+                }
+              }}
             >
               {menuItems.map((item) => (
                 <MenuItem
@@ -73,10 +113,11 @@ const Navbar = () => {
                 component={RouterLink}
                 to={item.path}
                 sx={{
-                  color: 'white',
+                  color: '#00FFFF',  // Cyan text
                   fontWeight: location.pathname === item.path ? 'bold' : 'normal',
                   '&:hover': {
-                    backgroundColor: 'primary.dark',
+                    backgroundColor: '#1A1A3A',  // Slightly lighter dark blue
+                    color: '#FF00FF'  // Hot pink on hover
                   },
                 }}
               >

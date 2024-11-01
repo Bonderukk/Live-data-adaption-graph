@@ -25,11 +25,11 @@ const BarChart = ({ data }) => {
       orientation: isSmallScreen ? 'h' : 'v',  // Add explicit orientation
       marker: {
         color: {
-          'A': '#4CAF50',
-          'B': '#8BC34A',
-          'C': '#CDDC39',
-          'D': '#FFC107',
-          'E': '#FF5722'
+          'A': '#FF00FF',  // Hot Pink
+          'B': '#00FFFF',  // Cyan
+          'C': '#FF2A6D',  // Neon Red
+          'D': '#05FFA1',  // Neon Green
+          'E': '#B967FF'   // Neon Purple
         }[grade]
       }
     }));
@@ -39,11 +39,17 @@ const BarChart = ({ data }) => {
     <Plot
       data={createDataSeries()}
       layout={{
+        paper_bgcolor: '#01012B',  // Dark blue background for the entire plot
+        plot_bgcolor: '#01012B',   // Dark blue background for the plotting area
         title: {
-          text: 'Počet študentov podľa známok v jednotlivých rokoch',
-          font: { size: isSmallScreen ? 12 : 14 },
+          text: 'Počet študentov podľa známok',
+          font: { 
+            size: isSmallScreen ? 12 : 16,
+            color: '#00FFFF',  // Cyan text for title
+            
+          },
           xref: 'paper',
-          x: 0.5,
+          x: isSmallScreen ? 0 : 0.5,
           xanchor: 'center',
           y: 0.95,
           yanchor: 'top'
@@ -62,12 +68,20 @@ const BarChart = ({ data }) => {
         xaxis: {
           title: isSmallScreen ? 'Počet študentov' : 'Akademický rok',
           showgrid: true,
-          automargin: true
+          automargin: true,
+          gridcolor: '#333366',  // Darker grid lines
+          linecolor: '#00FFFF',  // Cyan axis lines
+          tickfont: { color: '#00FFFF' },  // Cyan text for tick labels
+          titlefont: { color: '#00FFFF' }  // Cyan text for axis title
         },
         yaxis: {
           title: isSmallScreen ? 'Akademický rok' : 'Počet študentov',
           showgrid: true,
-          automargin: true
+          automargin: true,
+          gridcolor: '#333366',  // Darker grid lines
+          linecolor: '#00FFFF',  // Cyan axis lines
+          tickfont: { color: '#00FFFF' },  // Cyan text for tick labels
+          titlefont: { color: '#00FFFF' }  // Cyan text for axis title
         },
         legend: {
           orientation: isSmallScreen ? 'h' : 'v',
@@ -75,9 +89,9 @@ const BarChart = ({ data }) => {
           y: isSmallScreen ? -0.5 : 0.5,
           xanchor: isSmallScreen ? 'center' : 'left',
           x: isSmallScreen ? 0.4 : 1.05,
-          bgcolor: 'rgba(255,255,255,0.9)',
-          bordercolor: 'rgba(0,0,0,0.1)',
-          borderwidth: 1
+          bgcolor: '#01012B',  // Dark blue background
+          bordercolor: '#FF00FF',  // Hot pink border
+          font: { color: '#00FFFF' }  // Cyan text
         },
         font: {
           size: 10

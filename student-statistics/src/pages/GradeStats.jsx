@@ -11,7 +11,7 @@ const GradeStats = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('/src/data/z03.xml');
+        const response = await fetch(`${import.meta.env.BASE_URL}z03.xml`);
         const xmlText = await response.text();
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
@@ -55,7 +55,14 @@ const GradeStats = () => {
   }, []);
 
   if (error) return (
-    <Container maxWidth="xl" sx={{ mt: 4, px: { xs: 2, sm: 4 } }}>
+    <Container maxWidth="xl" sx={{ 
+      mt: 0, 
+      px: { xs: 2, sm: 4 },
+      backgroundColor: '#01012B',  // Dark blue background
+      color: '#00FFFF',  // Cyan text
+      minHeight: '100vh',  // This ensures full page coverage
+      py: 4  // Add some padding top and bottom instead
+    }}>
       <Paper sx={{ p: 2, textAlign: 'center', color: 'error.main' }}>
         Error: {error}
       </Paper>
@@ -63,7 +70,14 @@ const GradeStats = () => {
   );
   
   if (!data) return (
-    <Container maxWidth="xl" sx={{ mt: 4, px: { xs: 2, sm: 4 } }}>
+    <Container maxWidth="xl" sx={{ 
+      mt: 0, 
+      px: { xs: 2, sm: 4 },
+      backgroundColor: '#01012B',  // Dark blue background
+      color: '#00FFFF',  // Cyan text
+      minHeight: '100vh',  // This ensures full page coverage
+      py: 4  // Add some padding top and bottom instead
+    }}>
       <Paper sx={{ p: 2, textAlign: 'center' }}>
         Načítavam dáta...
       </Paper>
@@ -71,14 +85,30 @@ const GradeStats = () => {
   );
 
   return (
-    <Container maxWidth="xl" sx={{ mt: 4, px: { xs: 2, sm: 4 } }}>
+    <Container maxWidth="xl" sx={{ 
+      mt: 0, 
+      px: { xs: 2, sm: 4 },
+      backgroundColor: '#01012B',  // Dark blue background
+      color: '#00FFFF',  // Cyan text
+      minHeight: '100vh',  // This ensures full page coverage
+      py: 4  // Add some padding top and bottom instead
+    }}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Paper sx={{ p: { xs: 2, sm: 3 }, overflow: 'hidden' }}>
+          <Paper sx={{ 
+            p: { xs: 2, sm: 3 }, 
+            overflow: 'hidden',
+            backgroundColor: '#1A1A3A',  // Slightly lighter dark blue
+            color: '#00FFFF',  // Cyan text
+            border: '1px solid #FF00FF'  // Hot pink border
+          }}>
             <Typography 
               variant="h6" 
               gutterBottom 
-              sx={{ fontSize: { xs: '1.2rem', sm: '1.5rem' } }}
+              sx={{ 
+                fontSize: { xs: '1.2rem', sm: '1.5rem' },
+                color: '#FF00FF'  // Hot pink headers
+              }}
             >
               Rozdelenie známok podľa akademických rokov
             </Typography>
@@ -86,11 +116,20 @@ const GradeStats = () => {
           </Paper>
         </Grid>
         <Grid item xs={12}>
-          <Paper sx={{ p: { xs: 2, sm: 3 }, overflow: 'hidden' }}>
+          <Paper sx={{ 
+            p: { xs: 2, sm: 3 }, 
+            overflow: 'hidden',
+            backgroundColor: '#1A1A3A',  // Slightly lighter dark blue
+            color: '#00FFFF',  // Cyan text
+            border: '1px solid #FF00FF'  // Hot pink border
+          }}>
             <Typography 
               variant="h6" 
               gutterBottom 
-              sx={{ fontSize: { xs: '1.2rem', sm: '1.5rem' } }}
+              sx={{ 
+                fontSize: { xs: '1.2rem', sm: '1.5rem' },
+                color: '#FF00FF'  // Hot pink headers
+              }}
             >
               Analýza úspešnosti študentov v priebehu rokov
             </Typography>
@@ -105,11 +144,14 @@ const GradeStats = () => {
         </Grid>
         <Grid container item spacing={1}>
           {data.years.map((year, index) => (
-            <Grid item xs={12} sm={6} md={4} lg={3} key={year}>
+            <Grid item xs={12} sm={6} md={4} lg={3} key={year} sx={{ mb: 3 }}>
               <Paper sx={{ 
                 p: { xs: 1, sm: 2 },
                 height: '100%',
-                minHeight: '350px'
+                minHeight: '350px',
+                backgroundColor: '#1A1A3A',  // Slightly lighter dark blue
+                color: '#00FFFF',  // Cyan text
+                border: '1px solid #FF00FF'  // Hot pink border
               }}>
                 <Typography 
                   variant="subtitle1" 

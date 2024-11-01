@@ -70,11 +70,11 @@ const LineChart = ({ data }) => {
 
   // Adjust margin based on screen size to prevent overlap
   const margin = isSmallScreen
-    ? { t: 0, b: 150, l: 50, r: 20 } // Increased bottom margin from 100 to 150
+    ? { t: 50, b: 150, l: 50, r: 20 } // Increased top margin from 0 to 50
     : { t: 50, b: 120, l: 50, r: 20 };
 
   // Optionally adjust title font size
-  const titleFontSize = isSmallScreen ? 14 : 16;
+  const titleFontSize = isSmallScreen ? 12 : 16;
 
   return (
     <Plot
@@ -84,41 +84,59 @@ const LineChart = ({ data }) => {
           y: data.uspesnost,
           type: 'line',
           name: 'Úspešní študenti (A, B, C)',
-          marker: { color: '#2ecc71' }
+          marker: { color: '#05FFA1' }
         },
         {
           x: data.roky,
           y: data.neuspesnost,
           type: 'line',
           name: 'Menej úspešní študenti (D, E, FX)',
-          marker: { color: '#e74c3c' }
+          marker: { color: '#FF2A6D' }
         }
       ]}
       layout={{
         title: {
-          text: 'Pomer úspešnosti študentov v percentách',
+          text: 'Pomer úspešnosti študentov',
           font: { size: titleFontSize },
+          family: 'Orbitron',
           x: 0.5,
+          y: 0.95,  // Adjusted position
           xanchor: 'center',
+          yanchor: 'top',  // Added yanchor
         },
         xaxis: { 
           title: 'Akademický rok',
           showgrid: true,
+          gridcolor: '#333366',
+          linecolor: '#00FFFF'
         },
         yaxis: { 
           title: 'Percentuálne zastúpenie',
           range: [0, 100],
           showgrid: true,
+          gridcolor: '#333366',
+          linecolor: '#00FFFF'
         },
-        legend: legendConfig,
+        legend: {
+          ...legendConfig,
+          bgcolor: '#01012B',
+          bordercolor: '#FF00FF',
+          font: {
+            color: '#00FFFF',
+            size: isSmallScreen ? 9.5 : 14
+          }
+        },
         margin: margin,
-        height: isSmallScreen ? 400 : 500, // Adjust height based on screen size
+        height: isSmallScreen ? 450 : 500, // Increased height for small screens
         width: null,
         autosize: true,
         showlegend: true,
-        plot_bgcolor: '#fff',
-        paper_bgcolor: '#fff',
-        font: { size: isSmallScreen ? 10 : 12 },
+        plot_bgcolor: '#01012B',
+        paper_bgcolor: '#1A1A3A',
+        font: { 
+          color: '#00FFFF',
+          size: isSmallScreen ? 10 : 12
+        },
       }}
       config={{ displayModeBar: false }}
       useResizeHandler={true}

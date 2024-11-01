@@ -23,8 +23,8 @@ const CustomInput = styled('div')({
       position: 'absolute',
       width: '45px',
       height: '24px',
-      backgroundColor: '#fff',
-      border: '1px solid #e0e0e0',
+      backgroundColor: '#01012B',
+      border: '1px solid #00FFFF',
       borderRadius: '3px',
       transform: 'translateX(-50%)',
       cursor: 'pointer',
@@ -32,7 +32,12 @@ const CustomInput = styled('div')({
       justifyContent: 'center',
       alignItems: 'center',
       fontSize: '14px',
-      boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
+      color: '#00FFFF',
+      boxShadow: '0 0 8px rgba(0, 255, 255, 0.5)',
+      '&:hover': {
+        backgroundColor: '#1A1A3A',
+        borderColor: '#FF00FF',
+      }
     }
   },
   '.number-input': {
@@ -55,10 +60,14 @@ const CustomInput = styled('div')({
         WebkitAppearance: 'inner-spin-button',
         cursor: 'pointer',
         display: 'block',
-        width: '8px',
+        width: '15px',
+
         position: 'absolute',
-        right: '2px',
-        height: '50%'
+        right: '4px',
+        bottom: '1px',
+        height: '100%',
+        transform: 'scale(1.2)',
+
       }
     },
     '&::after': {

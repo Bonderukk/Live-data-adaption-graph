@@ -11,8 +11,9 @@ const Footer = () => {
         py: 3,
         px: 2,
         mt: 'auto',
-        backgroundColor: 'primary.main',
-        color: 'primary.contrastText'
+        backgroundColor: '#01012B',  // Dark blue background
+        color: '#00FFFF',  // Cyan text
+        borderTop: '2px solid #FF00FF'  // Hot pink border
       }}
     >
       <Box sx={{ 

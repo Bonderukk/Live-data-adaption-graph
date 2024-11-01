@@ -14,14 +14,14 @@ const SineCosineGraph = () => {
       y: [],
       type: 'scatter',
       name: 'Sínus',
-      line: { color: '#2ecc71' }
+      line: { color: '#05FFA1' }
     },
     {
       x: [],
       y: [],
       type: 'scatter',
       name: 'Kosínus',
-      line: { color: '#e74c3c' }
+      line: { color: '#FF2A6D' }
     }
   ]);
   const [isStreaming, setIsStreaming] = useState(true);
@@ -34,7 +34,7 @@ const SineCosineGraph = () => {
   useEffect(() => {
     if (!isStreaming) return;
 
-    const eventSource = new EventSource('http://old.iolab.sk/evaluation/sse/sse.php');
+    const eventSource = new EventSource('https://old.iolab.sk/evaluation/sse/sse.php');
     
     eventSource.onmessage = (event) => {
       try {
@@ -75,9 +75,19 @@ const SineCosineGraph = () => {
   };
 
   return (
-    <Container maxWidth={false} sx={{ py: 4, px: { xs: 1, sm: 4 } }}>
-      <Paper sx={{ p: { xs: 1, sm: 2 }, overflow: 'auto' }}>
-        <Typography variant="h6" gutterBottom>
+    <Container maxWidth={false} sx={{ 
+      py: 4, 
+      px: { xs: 1, sm: 4 },
+      backgroundColor: '#01012B'
+    }}>
+      <Paper sx={{ 
+        p: { xs: 1, sm: 2 }, 
+        overflow: 'auto',
+        backgroundColor: '#1A1A3A',
+        color: '#00FFFF',
+        border: '1px solid #FF00FF'
+      }}>
+        <Typography variant="h6" gutterBottom sx={{ color: '#FF00FF' }}>
           Sínusová a kosínusová funkcia
         </Typography>
         
@@ -91,16 +101,51 @@ const SineCosineGraph = () => {
 
         <Box sx={{ mb: 2 }}>
           <FormControlLabel
-            control={<Checkbox checked={showSine} onChange={(e) => setShowSine(e.target.checked)} />}
+            control={
+              <Checkbox 
+                checked={showSine} 
+                onChange={(e) => setShowSine(e.target.checked)}
+                sx={{
+                  color: '#00FFFF',
+                  '&.Mui-checked': {
+                    color: '#05FFA1',
+                  },
+                }}
+              />
+            }
             label="Zobraziť sínus"
+            sx={{ color: '#00FFFF' }}
           />
           <FormControlLabel
-            control={<Checkbox checked={showCosine} onChange={(e) => setShowCosine(e.target.checked)} />}
+            control={
+              <Checkbox 
+                checked={showCosine} 
+                onChange={(e) => setShowCosine(e.target.checked)}
+                sx={{
+                  color: '#00FFFF',
+                  '&.Mui-checked': {
+                    color: '#FF2A6D',
+                  },
+                }}
+              />
+            }
             label="Zobraziť kosínus"
+            sx={{ color: '#00FFFF' }}
           />
         </Box>
 
-        <Button variant="contained" onClick={handleEndClick}>
+        <Button 
+          variant="contained" 
+          onClick={handleEndClick}
+          sx={{
+            backgroundColor: '#FF00FF',
+            color: '#00FFFF',
+            '&:hover': {
+              backgroundColor: '#B967FF',
+            },
+            mb: 2
+          }}
+        >
           Koniec
         </Button>
 
@@ -112,24 +157,36 @@ const SineCosineGraph = () => {
             xaxis: { 
               title: 'x',
               showgrid: true,
-              fixedrange: isStreaming, // Disable zoom while streaming
+              fixedrange: isStreaming,
+              gridcolor: '#333366',
+              linecolor: '#00FFFF',
+              tickfont: { color: '#00FFFF' }
             },
             yaxis: { 
               title: 'y',
               showgrid: true,
-              fixedrange: isStreaming, // Disable zoom while streaming
+              fixedrange: isStreaming,
+              gridcolor: '#333366',
+              linecolor: '#00FFFF',
+              tickfont: { color: '#00FFFF' }
             },
             margin: { t: 10, b: 50, l: 50, r: 20 },
             height: 400,
             width: null,
             autosize: true,
             showlegend: true,
-            plot_bgcolor: '#fff',
-            paper_bgcolor: '#fff',
+            plot_bgcolor: '#01012B',
+            paper_bgcolor: '#1A1A3A',
+            font: { color: '#00FFFF' },
+            legend: {
+              font: { color: '#00FFFF' },
+              bgcolor: '#01012B',
+              bordercolor: '#FF00FF'
+            }
           }}
           config={{ 
-            displayModeBar: !isStreaming, // Only show mode bar when streaming is stopped
-            scrollZoom: !isStreaming // Disable scroll zoom while streaming
+            displayModeBar: !isStreaming,
+            scrollZoom: !isStreaming
           }}
           useResizeHandler={true}
           style={{ width: '100%', height: '400px' }}
